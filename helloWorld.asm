@@ -1,19 +1,26 @@
 [ORG 0x7C00]
 
-.START:
-	mov si, STRING
-	
-CHAR_LOOP: lodsb
-	or al,al
-	jz .END
-	mov ah, 0x0E
-	int 0x10
-	jmp CHAR_LOOP
-	
-.END:
-	jmp .END
+mov bx, welcomeMessage  ; bx = charAdress
+call print              ; print()
 
-STRING:	db "Hello, World!", 0
+jmp $
+
+print:
+    ;while (true)
+
+    mov al, [bx]        ; al = *charAdress
+    cmp al, 0           ; if (*charAdress == '\0') break
+    je exitPrint
+
+    mov ah, 0x0E        ; printf ("%c", *charAdress)
+    int 0x10 
+
+    inc bx              ; charAdress = charAdress + 1
+    jmp print
+exitPrint:
+    ret
+
+welcomeMessage: db 0x0a, "Welcome to real mode!", 0
 
 times 510-($-$$) db 0
 dw 0xAA55
