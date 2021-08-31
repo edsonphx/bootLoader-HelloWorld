@@ -1,6 +1,6 @@
 [ORG 0x7C00]
 
-mov bx, welcomeMessage  ; bx = charAdress
+mov bx, welcomeMessage  ; bx = char_address
 call print              ; print()
 
 jmp $
@@ -8,14 +8,14 @@ jmp $
 print:
     ;while (true)
 
-    mov al, [bx]        ; al = *charAdress
-    cmp al, 0           ; if (*charAdress == '\0') break
+    mov al, [bx]        ; al = *char_address
+    cmp al, 0           ; if (*char_address == '\0') break
     je exitPrint
 
-    mov ah, 0x0E        ; printf ("%c", *charAdress)
+    mov ah, 0x0E        ; printf ("%c", *char_address)
     int 0x10 
 
-    inc bx              ; charAdress = charAdress + 1
+    inc bx              ; char_address = char_address + 1
     jmp print
 exitPrint:
     ret
